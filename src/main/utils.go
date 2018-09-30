@@ -46,3 +46,11 @@ func mainOutput(v *gocui.View)  {
 	v.Editable = true
 	v.Wrap = true
 }
+
+func sideOutput(v *gocui.View)  {
+	fmt.Fprintln(v, "Column 1")
+	fmt.Fprintln(v, "Column 2")
+	fmt.Fprintln(v, "Column 3")
+	fmt.Fprint(v, "\rWill be")
+	fmt.Fprint(v, "deleted\rColumn 4\nColumn 5")
+}

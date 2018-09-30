@@ -84,11 +84,7 @@ func layout(g *gocui.Gui) error {
 		v.Highlight = true
 		v.SelBgColor = gocui.ColorGreen
 		v.SelFgColor = gocui.ColorBlack
-		fmt.Fprintln(v, "Column 1")
-		fmt.Fprintln(v, "Column 2")
-		fmt.Fprintln(v, "Column 3")
-		fmt.Fprint(v, "\rWill be")
-		fmt.Fprint(v, "deleted\rColumn 4\nColumn 5")
+		sideOutput(v)
 	}
 	if v, err := g.SetView("main", 30, 4, maxX, maxY); err != nil {
 		if err != gocui.ErrUnknownView {
