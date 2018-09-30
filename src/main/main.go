@@ -27,7 +27,7 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		filePtr := flag.String("word", "../README.md", "The csv file to process")
+		filePtr := flag.String("word", "README.md", "The csv file to process")
 		b, err := ioutil.ReadFile(*filePtr)
 		if err != nil {
 			panic(err)

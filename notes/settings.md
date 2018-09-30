@@ -20,4 +20,5 @@ go_build_*
 ## Set the following folders as *Excluded*
 * bin
 * pkg
-* src/github.com
+
+## Add README.md to bin as the default file.
