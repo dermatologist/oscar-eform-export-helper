@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
-	"flag"
-	"io/ioutil"
 )
 
 func nextView(g *gocui.Gui, v *gocui.View) error {
@@ -96,14 +94,7 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		filePtr := flag.String("word", "test.csv", "The csv file to process")
-		b, err := ioutil.ReadFile(*filePtr)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Fprintf(v, "%s", b)
-		v.Editable = true
-		v.Wrap = true
+		mainOutput(v)
 		if _, err := g.SetCurrentView("main"); err != nil {
 			return err
 		}

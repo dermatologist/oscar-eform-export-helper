@@ -4,6 +4,10 @@ import (
 	"encoding/csv"
 	"io"
 	"log"
+	"flag"
+	"io/ioutil"
+	"fmt"
+	"github.com/jroimartin/gocui"
 )
 
 // CSVToMap takes a reader and returns an array of dictionaries, using the header row as the keys
@@ -30,4 +34,15 @@ func CSVToMap(reader io.Reader) []map[string]string {
 		}
 	}
 	return rows
+}
+
+func mainOutput(v *gocui.View)  {
+	filePtr := flag.String("word", "test.csv", "The csv file to process")
+	b, err := ioutil.ReadFile(*filePtr)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(v, "%s", b)
+	v.Editable = true
+	v.Wrap = true
 }
