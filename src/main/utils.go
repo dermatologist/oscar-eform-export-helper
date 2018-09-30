@@ -41,9 +41,13 @@ func mainOutput(v *gocui.View, message *string)  {
 }
 
 func sideOutput(v *gocui.View)  {
-	fmt.Fprintln(v, "Column 1")
-	fmt.Fprintln(v, "Column 2")
-	fmt.Fprintln(v, "Column 3")
-	fmt.Fprint(v, "\rWill be")
-	fmt.Fprint(v, "deleted\rColumn 4\nColumn 5")
+	//fmt.Fprintln(v, "Column 1")
+	//fmt.Fprintln(v, "Column 2")
+	//fmt.Fprintln(v, "Column 3")
+	//fmt.Fprint(v, "\rWill be")
+	//fmt.Fprint(v, "deleted\rColumn 4\nColumn 5")
+	firstRecord := csvMap[0]
+	for key, _ := range firstRecord {
+		fmt.Fprintln(v, key)
+	}
 }
