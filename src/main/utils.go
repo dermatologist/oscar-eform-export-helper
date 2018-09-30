@@ -34,20 +34,26 @@ func CSVToMap(reader io.Reader) []map[string]string {
 	return rows
 }
 
-func mainOutput(v *gocui.View, message *string)  {
-	fmt.Fprintf(v, "%s", *message)
-	v.Editable = true
-	v.Wrap = true
+func mainOutput(g *gocui.Gui, message *string)  {
+	if v, err := g.SetCurrentView("main"); err != nil {
+		log.Panicln(err)
+	}else {
+		v.Editable = true
+		v.Wrap = true
+		v.Clear()
+		fmt.Fprintf(v, "%s", *message)
+		g.SetCurrentView("side")
+		recover()
+	}
 }
 
-func sideOutput(v *gocui.View)  {
-	//fmt.Fprintln(v, "Column 1")
-	//fmt.Fprintln(v, "Column 2")
-	//fmt.Fprintln(v, "Column 3")
-	//fmt.Fprint(v, "\rWill be")
-	//fmt.Fprint(v, "deleted\rColumn 4\nColumn 5")
-	firstRecord := csvMap[0]
-	for key, _ := range firstRecord {
-		fmt.Fprintln(v, key)
+func sideOutput(g *gocui.Gui)  {
+	if v, err := g.SetCurrentView("side"); err != nil {
+		log.Panicln(err)
+	}else {
+		firstRecord := csvMap[0]
+		for key, _ := range firstRecord {
+			fmt.Fprintln(v, key)
+		}
 	}
 }

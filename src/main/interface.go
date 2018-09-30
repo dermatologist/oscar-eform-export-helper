@@ -24,6 +24,7 @@ func cursorDown(g *gocui.Gui, v *gocui.View) error {
 			}
 		}
 	}
+	getLine(g, v)
 	return nil
 }
 
@@ -37,6 +38,7 @@ func cursorUp(g *gocui.Gui, v *gocui.View) error {
 			}
 		}
 	}
+	getLine(g, v)
 	return nil
 }
 
@@ -49,16 +51,7 @@ func getLine(g *gocui.Gui, v *gocui.View) error {
 		l = ""
 	}
 
-	maxX, maxY := g.Size()
-	if v, err := g.SetView("msg", maxX/2-30, maxY/2, maxX/2+30, maxY/2+2); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-		fmt.Fprintln(v, l)
-		if _, err := g.SetCurrentView("msg"); err != nil {
-			return err
-		}
-	}
+	mainOutput(g, &l)
 	return nil
 }
 
@@ -77,6 +70,16 @@ func layout(g *gocui.Gui) error {
 		v.SelFgColor = gocui.ColorBlack
 		fmt.Fprintln(v, "OSCAR eForm Export Tool Helper by Bell Eapen")
 	}
+	if _, err := g.SetView("main", 30, 4, maxX, maxY); err != nil {
+		if err != gocui.ErrUnknownView {
+			return err
+		}
+		message := "OSCAR Helper v 1.0.0"
+		mainOutput(g, &message)
+		if _, err := g.SetCurrentView("main"); err != nil {
+			return err
+		}
+	}
 	if v, err := g.SetView("side", -1, 4, 30, maxY); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
@@ -84,22 +87,7 @@ func layout(g *gocui.Gui) error {
 		v.Highlight = true
 		v.SelBgColor = gocui.ColorGreen
 		v.SelFgColor = gocui.ColorBlack
-		sideOutput(v)
-	}
-	if v, err := g.SetView("main", 30, 4, maxX, maxY); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-		//filePtr := flag.String("word", "test.csv", "The csv file to process")
-		//b, err := ioutil.ReadFile(*filePtr)
-		//if err != nil {
-		//	panic(err)
-		//}
-		message := "OSCAR Helper v 1.0.0"
-		mainOutput(v, &message)
-		if _, err := g.SetCurrentView("main"); err != nil {
-			return err
-		}
+		sideOutput(g)
 	}
 	return nil
 }
