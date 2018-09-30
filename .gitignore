@@ -38,4 +38,7 @@ Session.vim
 tags
 
 .idea
-build
+bin
+pkg
+src/github*
+go_build_*
