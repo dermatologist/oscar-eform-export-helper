@@ -4,8 +4,6 @@ import (
 	"encoding/csv"
 	"io"
 	"log"
-	"flag"
-	"io/ioutil"
 	"fmt"
 	"github.com/jroimartin/gocui"
 )
@@ -36,13 +34,8 @@ func CSVToMap(reader io.Reader) []map[string]string {
 	return rows
 }
 
-func mainOutput(v *gocui.View)  {
-	filePtr := flag.String("word", "test.csv", "The csv file to process")
-	b, err := ioutil.ReadFile(*filePtr)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Fprintf(v, "%s", b)
+func mainOutput(v *gocui.View, message *string)  {
+	fmt.Fprintf(v, "%s", *message)
 	v.Editable = true
 	v.Wrap = true
 }

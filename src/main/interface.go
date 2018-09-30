@@ -90,7 +90,13 @@ func layout(g *gocui.Gui) error {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
-		mainOutput(v)
+		//filePtr := flag.String("word", "test.csv", "The csv file to process")
+		//b, err := ioutil.ReadFile(*filePtr)
+		//if err != nil {
+		//	panic(err)
+		//}
+		message := "OSCAR Helper v 1.0.0"
+		mainOutput(v, &message)
 		if _, err := g.SetCurrentView("main"); err != nil {
 			return err
 		}
