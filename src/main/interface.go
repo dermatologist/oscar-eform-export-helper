@@ -69,6 +69,7 @@ func layout(g *gocui.Gui) error {
 		v.SelBgColor = gocui.ColorRed
 		v.SelFgColor = gocui.ColorBlack
 		fmt.Fprintln(v, "OSCAR eForm Export Tool Helper by Bell Eapen")
+		fmt.Fprintln(v, "Valid Records: ", recordCount)
 	}
 	if _, err := g.SetView("main", 30, 4, maxX, maxY); err != nil {
 		if err != gocui.ErrUnknownView {
@@ -112,4 +113,20 @@ func keybindings(g *gocui.Gui) error {
 		return err
 	}
 	return nil
+}
+
+func findDuplicates(csvMap []map[string]string) {
+	var latest bool
+	for _, v := range csvMap {
+		latest = false
+		for k2, v2 := range v {
+			if k2 == "eft_latest" && v2 == "1" {
+				latest = true
+			}
+		}
+		if latest {
+			csvMapValid = append(csvMapValid, v)
+			recordCount++
+		}
+	}
 }

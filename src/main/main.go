@@ -1,14 +1,16 @@
 package main
 
 import (
+	"flag"
 	"github.com/jroimartin/gocui"
 	"log"
 	"os"
-	"flag"
 )
 
 //This is how you declare a global variable
-var csvMap []map[string] string
+var csvMap []map[string]string
+var csvMapValid []map[string]string
+var recordCount int
 
 func main() {
 	g, err := gocui.NewGui(gocui.OutputNormal)
@@ -27,6 +29,7 @@ func main() {
 		log.Panicln(err)
 	}
 	csvMap = CSVToMap(r)
+	findDuplicates(csvMap)
 
 	if err := keybindings(g); err != nil {
 		log.Panicln(err)
