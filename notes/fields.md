@@ -3,11 +3,12 @@
 ## To avoid
 
 * id
-* fdif
+* fdid
 * dateCreated
 * eform_link
 * StaffSig
 * SubmitButton
+* efmfid
 
 ## Important
 

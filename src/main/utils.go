@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/csv"
-	"io"
-	"log"
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"io"
+	"log"
 )
 
 // CSVToMap takes a reader and returns an array of dictionaries, using the header row as the keys
@@ -34,10 +34,10 @@ func CSVToMap(reader io.Reader) []map[string]string {
 	return rows
 }
 
-func mainOutput(g *gocui.Gui, message *string)  {
+func mainOutput(g *gocui.Gui, message *string) {
 	if v, err := g.SetCurrentView("main"); err != nil {
 		log.Panicln(err)
-	}else {
+	} else {
 		v.Editable = true
 		v.Wrap = true
 		v.Clear()
@@ -47,13 +47,25 @@ func mainOutput(g *gocui.Gui, message *string)  {
 	}
 }
 
-func sideOutput(g *gocui.Gui)  {
+func sideOutput(g *gocui.Gui) {
+	toIgnore := []string{"id", "fdid", "dateCreated", "eform_link", "StaffSig", "SubmitButton", "efmfid"}
 	if v, err := g.SetCurrentView("side"); err != nil {
 		log.Panicln(err)
-	}else {
+	} else {
 		firstRecord := csvMap[0]
 		for key, _ := range firstRecord {
-			fmt.Fprintln(v, key)
+			if !isMember(key, toIgnore) {
+				fmt.Fprintln(v, key)
+			}
 		}
 	}
+}
+
+func isMember(s string, a []string) bool {
+	for _, v := range a {
+		if v == s {
+			return true
+		}
+	}
+	return false
 }
