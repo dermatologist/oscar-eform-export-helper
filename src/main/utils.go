@@ -34,6 +34,26 @@ func CSVToMap(reader io.Reader) []map[string]string {
 	return rows
 }
 
+func MysqlToMap(mysqlRows *sql.Rows) []map[string]string {
+	rows := []map[string]string{}
+	var header []string
+	for mysqlRows.Next() {
+		var id int64
+		var fdid int64
+		var fid int64
+		var demographic_no int64
+		var var_name string
+		var var_value string
+		mysqlRows.Scan(&id, &fdid, &fid, &demographic_no, &var_name, &var_value)
+		if !isMember(var_name, header){
+			header = append(header, var_name)
+		}
+		rows[fdid][var_name] = var_value
+	}
+	return rows
+}
+
+
 func mainOutput(g *gocui.Gui, message *string) {
 	if v, err := g.SetCurrentView("main"); err != nil {
 		log.Panicln(err)

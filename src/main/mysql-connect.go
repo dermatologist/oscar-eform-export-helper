@@ -67,7 +67,7 @@ func mysqlConnect() (*sql.Rows, error) {
 
 			fmt.Printf("Successfully connected to the db\n")
 
-			if rows, err := db.Query("SELECT id, name FROM table ORDER BY id"); err == nil {
+			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, var_value FROM eform_values;"); err == nil {
 				//for rows.Next() {
 				//	var id int64
 				//	var name string
