@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/csv"
 	"fmt"
 	"github.com/jroimartin/gocui"
@@ -45,14 +46,13 @@ func MysqlToMap(mysqlRows *sql.Rows) []map[string]string {
 		var var_name string
 		var var_value string
 		mysqlRows.Scan(&id, &fdid, &fid, &demographic_no, &var_name, &var_value)
-		if !isMember(var_name, header){
+		if !isMember(var_name, header) {
 			header = append(header, var_name)
 		}
 		rows[fdid][var_name] = var_value
 	}
 	return rows
 }
-
 
 func mainOutput(g *gocui.Gui, message *string) {
 	if v, err := g.SetCurrentView("main"); err != nil {

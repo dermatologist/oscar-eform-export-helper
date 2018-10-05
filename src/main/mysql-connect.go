@@ -9,6 +9,7 @@ import (
 	"golang.org/x/crypto/ssh/agent"
 	"net"
 	"os"
+	"strconv"
 )
 
 type ViaSSHDialer struct {
@@ -68,7 +69,7 @@ func mysqlConnect() (*sql.Rows, error) {
 
 			fmt.Printf("Successfully connected to the db\n")
 
-			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, var_value FROM eform_values WHERE fid = " + *fid +";"); err == nil {
+			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, var_value FROM eform_values WHERE fid = " + strconv.Itoa(*fid) + ";"); err == nil {
 				//for rows.Next() {
 				//	var id int64
 				//	var name string

@@ -41,4 +41,6 @@ tags
 bin
 pkg
 src/github*
+src/golang*
 go_build_*
+test.csv
