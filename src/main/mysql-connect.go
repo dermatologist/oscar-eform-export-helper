@@ -28,6 +28,7 @@ func mysqlConnect() (*sql.Rows, error) {
 	dbPass := flag.String("dbpass", "dbpass", "The db password")
 	dbHost := flag.String("dbhost", "localhost:3306", "The db host")
 	dbName := flag.String("dbname", "oscar", "The database name")
+	fid := flag.Int("fid", 1, "The eform ID")
 
 	var agentClient agent.Agent
 	// Establish a connection to the local ssh-agent
@@ -67,7 +68,7 @@ func mysqlConnect() (*sql.Rows, error) {
 
 			fmt.Printf("Successfully connected to the db\n")
 
-			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, var_value FROM eform_values;"); err == nil {
+			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, var_value FROM eform_values WHERE fid = " + *fid +";"); err == nil {
 				//for rows.Next() {
 				//	var id int64
 				//	var name string
