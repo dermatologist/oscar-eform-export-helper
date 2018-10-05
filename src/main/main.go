@@ -23,7 +23,8 @@ func main() {
 
 	g.SetManagerFunc(layout)
 
-	filePtr := flag.String("word", "test.csv", "The csv file to process")
+	// ./command-line-flags -word=opt -numb=7 -fork -svar=flag
+	filePtr := flag.String("file", "test.csv", "The csv file to process")
 	r, err := os.Open(*filePtr)
 	if err != nil {
 		log.Panicln(err)
