@@ -8,6 +8,7 @@ import (
 	"github.com/montanaflynn/stats"
 	"io"
 	"log"
+	"os"
 	"strconv"
 )
 
@@ -39,19 +40,32 @@ func CSVToMap(reader io.Reader) []map[string]string {
 
 func MysqlToMap(mysqlRows *sql.Rows) []map[string]string {
 	rows := []map[string]string{}
+	row := map[string]string{}
 	var header []string
-	for mysqlRows.Next() {
-		var id int64
-		var fdid int64
-		var fid int64
-		var demographic_no int64
-		var var_name string
-		var var_value string
-		mysqlRows.Scan(&id, &fdid, &fid, &demographic_no, &var_name, &var_value)
-		if !isMember(var_name, header) {
-			header = append(header, var_name)
+	var prevFdid int64 = 0
+	if mysqlRows != nil {
+		for mysqlRows.Next() {
+			var id int64
+			var fdid int64
+			var fid int64
+			var demographic_no int64
+			var var_name string
+			var var_value string
+			mysqlRows.Scan(&id, &fdid, &fid, &demographic_no, &var_name, &var_value)
+			if !isMember(var_name, header) {
+				header = append(header, var_name)
+			}
+			row[var_name] = var_value
+			if prevFdid == 0 {
+				prevFdid = fdid
+			}
+			if fdid != prevFdid {
+				rows = append(rows, row)
+				prevFdid = fdid
+			}
 		}
-		rows[fdid][var_name] = var_value
+	} else {
+		os.Exit(2)
 	}
 	return rows
 }
@@ -66,13 +80,13 @@ func mainOutput(g *gocui.Gui, message *string) {
 		fmt.Fprintln(v, *message)
 		fmt.Fprintln(v, " ")
 		varType := "string"
-		counter := make( map[string]int )
+		counter := make(map[string]int)
 		varNum := []float64{}
-		for _, record := range csvMapValid{
-			if n, err := strconv.ParseFloat(record[*message],64); err == nil {
+		for _, record := range csvMapValid {
+			if n, err := strconv.ParseFloat(record[*message], 64); err == nil {
 				varNum = append(varNum, n)
 				varType = "num"
-			}else{
+			} else {
 				counter[record[*message]]++
 
 			}
@@ -84,10 +98,10 @@ func mainOutput(g *gocui.Gui, message *string) {
 			distinctStrings[i] = k
 			i++
 		}
-		for _, s := range distinctStrings{
+		for _, s := range distinctStrings {
 			fmt.Fprintln(v, s, " --> ", counter[s], " | ", counter[s]*100/recordCount, "%")
 		}
-		if varType == "num"{
+		if varType == "num" {
 			a, _ := stats.Sum(varNum)
 			fmt.Fprintln(v, "Sum -->", a)
 			a, _ = stats.Min(varNum)

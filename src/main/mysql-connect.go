@@ -6,9 +6,11 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
+	"log"
 	"net"
 	"os"
 	"strconv"
+	"time"
 )
 
 type ViaSSHDialer struct {
@@ -33,6 +35,10 @@ func mysqlConnect() (*sql.Rows, error) {
 	sshConfig := &ssh.ClientConfig{
 		User: *sshUser,
 		Auth: []ssh.AuthMethod{},
+		HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
+			return nil
+		},
+		Timeout: time.Second * 5,
 	}
 
 	// When the agentClient connection succeeded, add them as AuthMethod
@@ -80,6 +86,9 @@ func mysqlConnect() (*sql.Rows, error) {
 			return nil, err
 		}
 
+	} else {
+		log.Panicln(err)
+		return nil, err
 	}
 	return nil, nil
 }
