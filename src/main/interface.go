@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"time"
 )
 
 func nextView(g *gocui.Gui, v *gocui.View) error {
@@ -115,16 +116,30 @@ func keybindings(g *gocui.Gui) error {
 	return nil
 }
 
+func inTimeSpan(start, end, check time.Time) bool {
+	return check.After(start) && check.Before(end)
+}
+
 func findDuplicates(csvMap []map[string]string) {
 	var latest bool
+	var included bool
 	for _, v := range csvMap {
 		latest = false
+		included = true
 		for k2, v2 := range v {
 			if k2 == "eft_latest" && v2 == "1" {
 				latest = true
 			}
+			if k2 == "dateCreated" {
+				dateCreated, _ := time.Parse("2006-01-02", v2)
+				_dateFrom, _ := time.Parse("2006-01-02", *dateFrom)
+				_dateTo, _ := time.Parse("2006-01-02", *dateTo)
+				if *dateFrom != "" && *dateTo != "" && !inTimeSpan(_dateFrom, _dateTo, dateCreated) {
+					included = false
+				}
+			}
 		}
-		if latest {
+		if latest && included {
 			csvMapValid = append(csvMapValid, v)
 			recordCount++
 		}
