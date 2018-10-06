@@ -7,6 +7,7 @@ import (
 	"github.com/jroimartin/gocui"
 	"io"
 	"log"
+	"strconv"
 )
 
 // CSVToMap takes a reader and returns an array of dictionaries, using the header row as the keys
@@ -61,7 +62,35 @@ func mainOutput(g *gocui.Gui, message *string) {
 		v.Editable = true
 		v.Wrap = true
 		v.Clear()
-		fmt.Fprintf(v, "%s", *message)
+		fmt.Fprintln(v, *message)
+		fmt.Fprintln(v, " ")
+		varType := ""
+		counter := make( map[string]int )
+		for _, record := range csvMapValid{
+			if _, err := strconv.Atoi(record[*message]); err == nil {
+				//fmt.Fprintln(v, "Looks like a number.")
+				varType = "number"
+			}else{
+				//fmt.Fprintln(v, "Looks like a string.")
+				varType = "string"
+			}
+			// https://stackoverflow.com/questions/44417913/go-count-distinct-values-in-array-performance-tips
+			if varType == "string"{
+				counter[record[*message]]++
+			}
+			//fmt.Fprintln(v, record[*message])
+			//fmt.Fprintln(v, varType)
+
+		}
+		distinctStrings := make([]string, len(counter))
+		i := 0
+		for k := range counter {
+			distinctStrings[i] = k
+			i++
+		}
+		for _, s := range distinctStrings{
+			fmt.Fprintln(v, s, " --> ", counter[s])
+		}
 		g.SetCurrentView("side")
 		recover()
 	}
