@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/jroimartin/gocui"
 	"log"
 	"os"
@@ -16,7 +17,7 @@ var sshPort, fid *int
 
 func main() {
 	// Commandline flags
-	sshHost = flag.String("host", "example.com", "The SSH host")
+	sshHost = flag.String("host", "", "The SSH host")
 	sshPort = flag.Int("port", 22, "The port number")
 	sshUser = flag.String("sshuser", "ssh-user", "ssh user")
 	sshPass = flag.String("sshpass", "ssh-pass", "SSH Password")
@@ -27,8 +28,36 @@ func main() {
 	dateFrom = flag.String("datefrom", "oscar", "The start date")
 	dateTo = flag.String("dateto", "oscar", "The end date")
 	fid = flag.Int("fid", 1, "The eform ID")
-	filePtr = flag.String("file", "test.csv", "The csv file to process")
+	filePtr = flag.String("file", "", "The csv file to process")
 	flag.Parse()
+
+	usage := `
+
+Usage:
+
+oscar_helper -file=output.csv
+
+oscar_helper -sshHost=xxx -sshPort=22 -sshUser=xxx -sshPass=xxx -dbUser=xxx -dbPass = xxx -dbHost=xxx dateFrom=xxx dateTo=xxx fid=1
+
+	`
+	if *filePtr != "" {
+		r, err := os.Open(*filePtr)
+		if err != nil {
+			log.Panicln(err)
+		}
+		csvMap = CSVToMap(r)
+
+	} else if *sshHost != "" {
+		r, err := mysqlConnect()
+		if err != nil {
+			log.Panicln(err)
+		}
+
+		csvMap = MysqlToMap(r)
+	} else {
+		fmt.Print(usage)
+		os.Exit(1)
+	}
 
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
@@ -40,11 +69,6 @@ func main() {
 
 	g.SetManagerFunc(layout)
 
-	r, err := os.Open(*filePtr)
-	if err != nil {
-		log.Panicln(err)
-	}
-	csvMap = CSVToMap(r)
 	findDuplicates(csvMap)
 
 	if err := keybindings(g); err != nil {
