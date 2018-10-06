@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"github.com/jroimartin/gocui"
+	"github.com/montanaflynn/stats"
 	"io"
 	"log"
 	"strconv"
@@ -64,23 +65,18 @@ func mainOutput(g *gocui.Gui, message *string) {
 		v.Clear()
 		fmt.Fprintln(v, *message)
 		fmt.Fprintln(v, " ")
-		varType := ""
+		varType := "string"
 		counter := make( map[string]int )
+		varNum := []float64{}
 		for _, record := range csvMapValid{
-			if _, err := strconv.Atoi(record[*message]); err == nil {
-				//fmt.Fprintln(v, "Looks like a number.")
-				varType = "number"
+			if n, err := strconv.ParseFloat(record[*message],64); err == nil {
+				varNum = append(varNum, n)
+				varType = "num"
 			}else{
-				//fmt.Fprintln(v, "Looks like a string.")
-				varType = "string"
+				counter[record[*message]]++
+
 			}
 			// https://stackoverflow.com/questions/44417913/go-count-distinct-values-in-array-performance-tips
-			if varType == "string"{
-				counter[record[*message]]++
-			}
-			//fmt.Fprintln(v, record[*message])
-			//fmt.Fprintln(v, varType)
-
 		}
 		distinctStrings := make([]string, len(counter))
 		i := 0
@@ -89,7 +85,22 @@ func mainOutput(g *gocui.Gui, message *string) {
 			i++
 		}
 		for _, s := range distinctStrings{
-			fmt.Fprintln(v, s, " --> ", counter[s])
+			fmt.Fprintln(v, s, " --> ", counter[s], " | ", counter[s]*100/recordCount, "%")
+		}
+		if varType == "num"{
+			a, _ := stats.Sum(varNum)
+			fmt.Fprintln(v, "Sum -->", a)
+			a, _ = stats.Min(varNum)
+			fmt.Fprintln(v, "Min -->", a)
+			a, _ = stats.Max(varNum)
+			fmt.Fprintln(v, "Max -->", a)
+			a, _ = stats.Mean(varNum)
+			fmt.Fprintln(v, "Mean -->", a)
+			a, _ = stats.Median(varNum)
+			fmt.Fprintln(v, "Median -->", a)
+			a, _ = stats.StandardDeviation(varNum)
+			fmt.Fprintln(v, "StdDev -->", a)
+
 		}
 		g.SetCurrentView("side")
 		recover()
