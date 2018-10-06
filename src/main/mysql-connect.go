@@ -30,7 +30,7 @@ func mysqlConnect() (*sql.Rows, error) {
 	dbHost := flag.String("dbhost", "localhost:3306", "The db host")
 	dbName := flag.String("dbname", "oscar", "The database name")
 	fid := flag.Int("fid", 1, "The eform ID")
-
+	flag.Parse()
 	var agentClient agent.Agent
 	// Establish a connection to the local ssh-agent
 	if conn, err := net.Dial("unix", os.Getenv("SSH_AUTH_SOCK")); err == nil {

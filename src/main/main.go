@@ -25,6 +25,7 @@ func main() {
 
 	// ./command-line-flags -word=opt -numb=7 -fork -svar=flag
 	filePtr := flag.String("file", "test.csv", "The csv file to process")
+	flag.Parse()
 	r, err := os.Open(*filePtr)
 	if err != nil {
 		log.Panicln(err)
