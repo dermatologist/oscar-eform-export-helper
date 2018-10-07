@@ -134,12 +134,12 @@ func findDuplicates(csvMap []map[string]string) {
 				dateCreated, _ := time.Parse("2006-01-02", v2)
 				_dateFrom, _ := time.Parse("2006-01-02", *dateFrom)
 				_dateTo, _ := time.Parse("2006-01-02", *dateTo)
-				if *dateFrom != "" && *dateTo != "" && !inTimeSpan(_dateFrom, _dateTo, dateCreated) {
+				if len(*dateFrom) > 0 && len(*dateTo) > 0 && !inTimeSpan(_dateFrom, _dateTo, dateCreated) {
 					included = false
 				}
 			}
 		}
-		if latest && included {
+		if latest && !included {
 			csvMapValid = append(csvMapValid, v)
 			recordCount++
 		}
