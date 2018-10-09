@@ -62,7 +62,7 @@ func mysqlConnect() (*sql.Rows, error) {
 			SELECT id, fdid, fid, demographic_no, var_name, 
 			var_value FROM eform_values WHERE fid = ` + strconv.Itoa(*fid) + ` 
 			AND fdid IN (SELECT fdid FROM eform_data WHERE fid = ` + strconv.Itoa(*fid) + ` 
-			AND form_date >= ` + *dateFrom + " AND form_date <= " + *dateTo + " );"
+			AND form_date >= ` + *dateFrom + " AND form_date <= " + *dateTo + "  ORDER BY form_date desc, fdid desc );"
 
 			if rows, err := db.Query(sqlQuery); err == nil {
 				//for rows.Next() {

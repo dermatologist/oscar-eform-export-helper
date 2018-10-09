@@ -123,6 +123,7 @@ func inTimeSpan(start, end, check time.Time) bool {
 func findDuplicates(csvMap []map[string]string) {
 	var latest bool
 	var included bool
+	demographicNo := make([]string)
 	for _, v := range csvMap {
 		latest = false
 		included = true
@@ -136,6 +137,12 @@ func findDuplicates(csvMap []map[string]string) {
 				_dateTo, _ := time.Parse("2006-01-02", *dateTo)
 				if len(*dateFrom) > 0 && len(*dateTo) > 0 && !inTimeSpan(_dateFrom, _dateTo, dateCreated) {
 					included = false
+				}
+			}
+			if k2 == "demographic_no" {
+				if !isMember(v2, demographicNo){
+					demographicNo = append(demographicNo, v2)
+					latest = true
 				}
 			}
 		}
