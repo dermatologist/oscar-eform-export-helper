@@ -69,10 +69,14 @@ func mysqlConnect() (*sql.Rows, error) {
 
 			fmt.Printf("Successfully connected to the db\n")
 
-			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, 
-				var_value FROM eform_values WHERE fid = " + strconv.Itoa(*fid) + " AND fdid IN
-				 (SELECT fdid FROM eform_data WHERE fid = " + strconv.Itoa(*fid) + " AND form_date >= " 
-				 + *dateFrom + " AND form_date <= " + *dateTo + " );"); err == nil {
+			sqlQuery := `
+			SELECT id, fdid, fid, demographic_no, var_name, 
+			var_value FROM eform_values WHERE fid = " + strconv.Itoa(*fid) + " AND fdid IN
+			 (SELECT fdid FROM eform_data WHERE fid = " + strconv.Itoa(*fid) + " AND form_date >= " 
+			 + *dateFrom + " AND form_date <= " + *dateTo + " );
+			 `
+
+			if rows, err := db.Query(sqlQuery); err == nil {
 				//for rows.Next() {
 				//	var id int64
 				//	var name string
