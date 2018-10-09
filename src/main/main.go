@@ -9,11 +9,11 @@ import (
 )
 
 //This is how you declare a global variable
-var csvMap []map[string]string
-var csvMapValid []map[string]string
+var csvMap, csvMapValid []map[string]string
 var recordCount int
 var sshHost, sshUser, sshPass, dbUser, dbPass, dbHost, dbName, dateFrom, dateTo, filePtr *string
 var sshPort, fid *int
+var includeAll *bool
 
 func main() {
 	// Commandline flags
@@ -29,6 +29,7 @@ func main() {
 	dateTo = flag.String("dateto", "oscar", "The end date")
 	fid = flag.Int("fid", 1, "The eform ID")
 	filePtr = flag.String("file", "", "The csv file to process")
+	includeAll := flag.Bool("include", false, "Include all records")
 	flag.Parse()
 
 	usage := `
@@ -37,7 +38,7 @@ Usage:
 
 oscar_helper -file=output.csv
 
-oscar_helper -sshHost=xxx -sshPort=22 -sshUser=xxx -sshPass=xxx -dbUser=xxx -dbPass = xxx -dbHost=xxx dateFrom=xxx dateTo=xxx fid=1
+oscar_helper -sshHost=xxx -sshPort=22 -sshUser=xxx -sshPass=xxx -dbUser=xxx -dbPass=xxx -dbName=xxx -dbHost=xxx -dateFrom=YYYY-MM-DD -dateTo=YYYY-MM-DD -fid=1 -include
 
 	`
 	if *filePtr != "" {

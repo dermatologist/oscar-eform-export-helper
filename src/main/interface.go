@@ -123,7 +123,7 @@ func inTimeSpan(start, end, check time.Time) bool {
 func findDuplicates(csvMap []map[string]string) {
 	var latest bool
 	var included bool
-	demographicNo := make([]string)
+	var demographicNo []string
 	for _, v := range csvMap {
 		latest = false
 		included = true
