@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"flag"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/ssh"
@@ -61,10 +60,9 @@ func mysqlConnect() (*sql.Rows, error) {
 
 			sqlQuery := `
 			SELECT id, fdid, fid, demographic_no, var_name, 
-			var_value FROM eform_values WHERE fid = ` + strconv.Itoa(*fid) + ` AND fdid IN
-			 (SELECT fdid FROM eform_data WHERE fid = ` + strconv.Itoa(*fid) + ` AND form_date >= ` 
-			 + *dateFrom + ` AND form_date <= ` + *dateTo + ` );
-			 `
+			var_value FROM eform_values WHERE fid = ` + strconv.Itoa(*fid) + ` 
+			AND fdid IN (SELECT fdid FROM eform_data WHERE fid = ` + strconv.Itoa(*fid) + ` 
+			AND form_date >= ` + *dateFrom + " AND form_date <= " + *dateTo + " );"
 
 			if rows, err := db.Query(sqlQuery); err == nil {
 				//for rows.Next() {
