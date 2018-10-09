@@ -29,7 +29,7 @@ func main() {
 	dateTo = flag.String("dateto", "oscar", "The end date")
 	fid = flag.Int("fid", 1, "The eform ID")
 	filePtr = flag.String("file", "", "The csv file to process")
-	includeAll := flag.Bool("include", false, "Include all records")
+	includeAll = flag.Bool("include", false, "Include all records")
 	flag.Parse()
 
 	usage := `
