@@ -17,8 +17,8 @@ var includeAll *bool
 
 func main() {
 	// Commandline flags
-	sshHost = flag.String("host", "", "The SSH host")
-	sshPort = flag.Int("port", 22, "The port number")
+	sshHost = flag.String("sshhost", "", "The SSH host")
+	sshPort = flag.Int("sshport", 22, "The port number")
 	sshUser = flag.String("sshuser", "ssh-user", "ssh user")
 	sshPass = flag.String("sshpass", "ssh-pass", "SSH Password")
 	dbUser = flag.String("dbuser", "dbuser", "The db user")
@@ -38,7 +38,7 @@ Usage:
 
 oscar_helper -file=output.csv
 
-oscar_helper -sshHost=xxx -sshPort=22 -sshUser=xxx -sshPass=xxx -dbUser=xxx -dbPass=xxx -dbName=xxx -dbHost=xxx -dateFrom=YYYY-MM-DD -dateTo=YYYY-MM-DD -fid=1 -include
+oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbpass=xxx -dbname=xxx -dbhost=xxx -datefrom=YYYY-MM-DD -dateto=YYYY-MM-DD -fid=1 -include
 
 	`
 	if *filePtr != "" {

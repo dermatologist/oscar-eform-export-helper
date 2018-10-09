@@ -145,6 +145,9 @@ func findDuplicates(csvMap []map[string]string) {
 					latest = true
 				}
 			}
+			if *includeAll {
+				latest = true
+			}
 		}
 		if latest && !included {
 			csvMapValid = append(csvMapValid, v)
