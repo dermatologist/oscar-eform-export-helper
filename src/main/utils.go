@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
 // CSVToMap takes a reader and returns an array of dictionaries, using the header row as the keys

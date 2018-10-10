@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/jroimartin/gocui"
-	"time"
 )
 
 func nextView(g *gocui.Gui, v *gocui.View) error {

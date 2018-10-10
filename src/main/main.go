@@ -38,7 +38,7 @@ Usage:
 
 oscar_helper -file=output.csv
 
-oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbpass=xxx -dbname=xxx -dbhost=xxx -datefrom=YYYY-MM-DD -dateto=YYYY-MM-DD -fid=1 -include
+oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbpass=xxx -dbname=xxx -dbhost=localhost -datefrom=YYYY-MM-DD -dateto=YYYY-MM-DD -fid=1 -include
 
 	`
 	if *filePtr != "" {
