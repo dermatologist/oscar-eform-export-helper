@@ -115,18 +115,3 @@ func keybindings(g *gocui.Gui) error {
 	return nil
 }
 
-func findDuplicates(csvMap []map[string]string) {
-	var latest bool
-	for _, v := range csvMap {
-		latest = false
-		for k2, v2 := range v {
-			if k2 == "eft_latest" && v2 == "1" {
-				latest = true
-			}
-		}
-		if latest {
-			csvMapValid = append(csvMapValid, v)
-			recordCount++
-		}
-	}
-}

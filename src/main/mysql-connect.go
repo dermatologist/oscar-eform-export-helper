@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"flag"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/ssh"
@@ -21,16 +20,6 @@ func (self *ViaSSHDialer) Dial(addr string) (net.Conn, error) {
 }
 
 func mysqlConnect() (*sql.Rows, error) {
-	sshHost := flag.String("host", "example.com", "The SSH host")
-	sshPort := flag.Int("port", 22, "The port number")
-	sshUser := flag.String("sshuser", "ssh-user", "ssh user")
-	sshPass := flag.String("sshpass", "ssh-pass", "SSH Password")
-	dbUser := flag.String("dbuser", "dbuser", "The db user")
-	dbPass := flag.String("dbpass", "dbpass", "The db password")
-	dbHost := flag.String("dbhost", "localhost:3306", "The db host")
-	dbName := flag.String("dbname", "oscar", "The database name")
-	fid := flag.Int("fid", 1, "The eform ID")
-
 	var agentClient agent.Agent
 	// Establish a connection to the local ssh-agent
 	if conn, err := net.Dial("unix", os.Getenv("SSH_AUTH_SOCK")); err == nil {
@@ -69,13 +58,13 @@ func mysqlConnect() (*sql.Rows, error) {
 
 			fmt.Printf("Successfully connected to the db\n")
 
-			if rows, err := db.Query("SELECT id, fdid, fid, demographic_no, var_name, var_value FROM eform_values WHERE fid = " + strconv.Itoa(*fid) + ";"); err == nil {
-				//for rows.Next() {
-				//	var id int64
-				//	var name string
-				//	rows.Scan(&id, &name)
-				//	fmt.Printf("ID: %d  Name: %s\n", id, name)
-				//}
+			sqlQuery := `
+			SELECT id, fdid, fid, demographic_no, var_name, 
+			var_value FROM eform_values WHERE fid = ` + strconv.Itoa(*fid) + ` 
+			AND fdid IN (SELECT fdid FROM eform_data WHERE fid = ` + strconv.Itoa(*fid) + ` 
+			AND form_date >= ` + *dateFrom + " AND form_date <= " + *dateTo + "  ORDER BY form_date desc, fdid desc );"
+
+			if rows, err := db.Query(sqlQuery); err == nil {
 				return rows, nil
 				defer rows.Close()
 			} else {
