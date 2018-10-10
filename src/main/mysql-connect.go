@@ -65,12 +65,6 @@ func mysqlConnect() (*sql.Rows, error) {
 			AND form_date >= ` + *dateFrom + " AND form_date <= " + *dateTo + "  ORDER BY form_date desc, fdid desc );"
 
 			if rows, err := db.Query(sqlQuery); err == nil {
-				//for rows.Next() {
-				//	var id int64
-				//	var name string
-				//	rows.Scan(&id, &name)
-				//	fmt.Printf("ID: %d  Name: %s\n", id, name)
-				//}
 				return rows, nil
 				defer rows.Close()
 			} else {
