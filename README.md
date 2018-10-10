@@ -1,4 +1,5 @@
-# eForm Export Tool Helper
+# GoForm - eForm Reporting Helper 
+[![Build Status](https://travis-ci.org/dermatologist/oscar-eform-export-helper.svg?branch=develop)](https://travis-ci.org/dermatologist/oscar-eform-export-helper)
 
 [![eForm Export Tool](https://raw.github.com/dermatologist/oscar-eform-export-helper/develop/notes/usage.gif)](https://canehealth.com)
 
