@@ -5,9 +5,9 @@
 
 ## About
 
-Reporting from OSCAR eforms is difficult as the fields are added to a single table as key value pairs. The recently added *eform report tool functionality,* converts it into a temporary table with field names as headers. This is a tool to further process the temporary database table and display summary statistics.
+Reporting from OSCAR eforms is difficult as the fields are added to a single table as key value pairs. This is a tool for quickly diplaying summary statistics by connecting to the database via SSH. It can also work on the csv file exported from the eForm Export Tool.
 
-## How ro use
+## How to use
 
 ```
 oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbpass=xxx -dbname=xxx -dbhost=localhost -datefrom=YYYY-MM-DD -dateto=YYYY-MM-DD -fid=1 -include
@@ -15,6 +15,8 @@ oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbp
 ```
 
 ## Work in progress: DO NOT USE
+
+## Check out the :fire: [FHIRForm framework for E-Form management](https://github.com/E-Health/fhirform)
 
 ## Contributors
 
