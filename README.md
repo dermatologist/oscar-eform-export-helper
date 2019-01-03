@@ -13,11 +13,11 @@ Reporting from OSCAR eforms is difficult as the fields are added to a single tab
 oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbpass=xxx -dbname=xxx -dbhost=localhost -datefrom=YYYY-MM-DD -dateto=YYYY-MM-DD -fid=1 -include
 
 ```
+* Work in progress
 
-## Work in progress: DO NOT USE
-
-## Check out the :fire: [FHIRForm framework for E-Form management](https://github.com/E-Health/fhirform)
-
+## Other Projects
+* [:fire: FHIRForm framework for E-Form management](https://github.com/E-Health/fhirform)
+* [:eyes: Drishti | An mHealth sense-plan-act framework!](https://github.com/E-Health/drishti)
 ## Contributors
 
 [Bell Eapen](http://canehealth.com)
