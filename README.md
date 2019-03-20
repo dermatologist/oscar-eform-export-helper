@@ -10,6 +10,10 @@ Reporting from OSCAR eforms is difficult as the fields are added to a single tab
 ## How to use
 
 ```
+oscar_helper -file=output.csv
+
+OR
+
 oscar_helper -sshhost=xxx -sshport=22 -sshuser=xxx -sshpass=xxx -dbuser=xxx -dbpass=xxx -dbname=xxx -dbhost=localhost -datefrom=YYYY-MM-DD -dateto=YYYY-MM-DD -fid=1 -include
 
 ```
