@@ -7,6 +7,17 @@
 
 Reporting from OSCAR eforms is difficult as the fields are added to a single table as key value pairs. This is a tool for quickly diplaying summary statistics by connecting to the database via SSH. It can also work on the csv file exported from the eForm Export Tool.
 
+## Build
+```
+git clone https://github.com/dermatologist/oscar-eform-export-helper.git
+cd oscar-eform-export-helper/src/main/
+export GOBIN=$(pwd)
+go get
+sudo mv main /usr/local/bin/oscar_helper
+```
+* The above is for linux. Follow similar steps for other OS.
+
+
 ## How to use
 
 ```
